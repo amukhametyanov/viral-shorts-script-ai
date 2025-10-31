@@ -74,6 +74,7 @@ const ScriptPartDisplay: React.FC<{ part: ScriptPart; onGenerateImage: () => voi
 
 export const ScriptGenerator: React.FC = () => {
   const [prompt, setPrompt] = useState('');
+  const [talkingPoints, setTalkingPoints] = useState('');
   const [language, setLanguage] = useState('en-US');
   const [scriptParts, setScriptParts] = useState<ScriptPart[]>([]);
   const [loading, setLoading] = useState(false);
@@ -93,7 +94,7 @@ export const ScriptGenerator: React.FC = () => {
     setError(null);
     setScriptParts([]);
     try {
-      const parts = await generateScriptWithGrounding(prompt, language);
+      const parts = await generateScriptWithGrounding(prompt, language, talkingPoints);
       setScriptParts(parts);
     } catch (e) {
       console.error(e);
@@ -101,7 +102,7 @@ export const ScriptGenerator: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [prompt, language]);
+  }, [prompt, language, talkingPoints]);
   
   const handleGenerateImage = useCallback(async (partIndex: number) => {
       setScriptParts(prevParts => 
@@ -129,10 +130,25 @@ export const ScriptGenerator: React.FC = () => {
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="e.g., The history of memes"
+          placeholder="e.g., The secret history of the first iPhone"
           className="w-full p-3 bg-black/20 rounded-md border border-white/20 focus:ring-2 focus:ring-brand-primary focus:outline-none transition-all"
-          rows={3}
+          rows={2}
         />
+
+        <div className="mt-4">
+            <label htmlFor="talking-points" className="block text-sm font-medium text-brand-text-secondary mb-1">
+                Key Questions or Talking Points (Optional)
+            </label>
+            <textarea
+                id="talking-points"
+                value={talkingPoints}
+                onChange={(e) => setTalkingPoints(e.target.value)}
+                placeholder="Guide the narrative, e.g., Was Steve Jobs against the idea at first? What was the secret codename 'Project Purple'?"
+                className="w-full p-3 bg-black/20 rounded-md border border-white/20 focus:ring-2 focus:ring-brand-primary focus:outline-none transition-all"
+                rows={3}
+            />
+        </div>
+
         <div className="mt-4">
             <label htmlFor="language-select" className="block text-sm font-medium text-brand-text-secondary mb-1">
                 Script Language

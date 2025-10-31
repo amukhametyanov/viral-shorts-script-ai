@@ -25,24 +25,37 @@ const extractJson = (text: string): any => {
   return null;
 };
 
-export const generateScriptWithGrounding = async (topic: string, language: string): Promise<ScriptPart[]> => {
-  const prompt = `You are a YouTube Shorts scriptwriter. Create a viral script about '${topic}' in the language with code '${language}'.
-The script should have a strong hook, 2-3 engaging points, and a clear call-to-action.
+export const generateScriptWithGrounding = async (topic: string, language: string, talkingPoints: string): Promise<ScriptPart[]> => {
+  const talkingPointsInstruction = talkingPoints
+    ? `The narrative MUST be based on and answer these specific questions or talking points: "${talkingPoints}". Weave them into a cohesive story.`
+    : `Create the most intriguing narrative you can based on your research.`;
 
-**Crucial Instructions:**
-1.  **Meta-Information:** For any important entity (person, company, product, event), you MUST provide meta-information to establish credibility and context. For example, if you mention "Tyler McVicker," you must add why he is reputable, like "(the reputable Valve insider who previously predicted Half-Life: Alyx)". This makes the script more informative and trustworthy.
-2.  **Meme/Visual Idea:** For each part of the script, suggest a funny, relevant meme or a visual idea.
-3.  **Language:** The entire "script" content must be in the target language: '${language}'. The other JSON fields ('part', 'memeIdea') should remain in English for structural consistency.
+  const prompt = `You are a master storyteller and YouTube Shorts scriptwriter, specializing in creating viral content that feels like a narrator gradually unraveling a secret.
 
-Structure your response as a JSON array string within a markdown code block like this:
+Your task is to create a script about '${topic}' in the language with code '${language}'.
+
+**Narrative Style:**
+- **Unravel a Secret:** Structure the script to build suspense. Start with an intriguing hook, reveal clues or pieces of information incrementally, and lead to a satisfying or shocking conclusion.
+- **Engaging Tone:** Use a captivating, slightly mysterious narrator's voice.
+
+**Content Guidance:**
+- ${talkingPointsInstruction}
+
+**Crucial Output Instructions:**
+1.  **Meta-Information:** For any important entity (person, company, product), YOU MUST provide meta-information to establish credibility. For example, if you mention "Tyler McVicker," add context like "(the reputable Valve insider who previously predicted Half-Life: Alyx)". This is non-negotiable.
+2.  **Meme/Visual Idea:** For each part, suggest a relevant meme or a compelling visual idea that enhances the storytelling.
+3.  **Language:** The "script" content MUST be in the target language: '${language}'. All other JSON fields ('part', 'memeIdea') must be in English.
+4.  **Part Naming:** Name the 'part' fields to reflect the story's progression (e.g., "The Intriguing Premise", "The First Clue", "The Plot Twist", "The Final Reveal").
+
+Structure your response as a JSON array string inside a markdown code block. Example:
 \`\`\`json
 [
-  { "part": "Hook", "script": "The script for the hook in ${language}...", "memeIdea": "A funny cat meme" },
-  { "part": "Main Point 1", "script": "The script for the first point in ${language} with meta-info...", "memeIdea": "Surprised Pikachu face" },
-  { "part": "Call to Action", "script": "The script for the CTA in ${language}...", "memeIdea": "Shut up and take my money meme" }
+  { "part": "The Ominous Intro", "script": "The hook in ${language} that sets up the mystery...", "memeIdea": "A 'thinking face' emoji overlay" },
+  { "part": "The First Clue", "script": "The first piece of the puzzle in ${language} with meta-info...", "memeIdea": "Zoom in on a map with red string" },
+  { "part": "The Shocking Reveal", "script": "The climax of the story in ${language}...", "memeIdea": "Mind blown GIF" }
 ]
 \`\`\`
-Use Google Search to ensure all factual claims are accurate and up-to-date.`;
+Use Google Search to ensure all information is accurate, up-to-date, and to uncover interesting, little-known facts that support the 'secret unraveling' narrative.`;
 
   const response: GenerateContentResponse = await ai.models.generateContent({
     model: SCRIPT_GEN_MODEL,
