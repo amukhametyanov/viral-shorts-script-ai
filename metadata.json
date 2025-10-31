@@ -1,0 +1,5 @@
+{
+  "name": "Viral Script AI",
+  "description": "An AI-powered application to generate YouTube Shorts scripts with sourced information, suggest relevant memes, and provide powerful image editing capabilities using Gemini.",
+  "requestFramePermissions": []
+}
