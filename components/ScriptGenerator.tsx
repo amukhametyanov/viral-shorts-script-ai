@@ -177,7 +177,7 @@ export const ScriptGenerator: React.FC = () => {
       {loading && scriptParts.length === 0 && (
          <div className="text-center p-8">
             <Loader />
-            <p className="mt-4 text-brand-text-secondary">Generating your script... this may take a moment.</p>
+            <p className="mt-4 text-brand-text-secondary">Generating and refining your script... this may take a moment.</p>
          </div>
       )}
 

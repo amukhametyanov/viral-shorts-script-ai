@@ -34,6 +34,15 @@ export const generateScriptWithGrounding = async (topic: string, language: strin
 
 Your task is to create a script about '${topic}' in the language with code '${language}'.
 
+**CRITICAL PROCESS: Two-Step Generation**
+1.  **Drafting Phase (Internal):** First, generate a draft of the script following all instructions.
+2.  **Review & Refine Phase (Internal):** Before finalizing, you MUST critically review your own draft. Ask yourself:
+    *   "Does this *truly* feel like a secret being unraveled? Is the suspense building effectively?"
+    *   "Have I added enough detail and rich meta-information to give the audience the *full picture*?"
+    *   "Is the information accurate and well-sourced?"
+    *   "Is every user talking point addressed in a compelling way?"
+    *   Based on this review, **edit your work**. Enhance the narrative, add more descriptive details, and deepen the meta-information to make the script more immersive and professional.
+
 **Narrative Style:**
 - **Unravel a Secret:** Structure the script to build suspense. Start with an intriguing hook, reveal clues or pieces of information incrementally, and lead to a satisfying or shocking conclusion.
 - **Engaging Tone:** Use a captivating, slightly mysterious narrator's voice.
@@ -47,7 +56,7 @@ Your task is to create a script about '${topic}' in the language with code '${la
 3.  **Language:** The "script" content MUST be in the target language: '${language}'. All other JSON fields ('part', 'memeIdea') must be in English.
 4.  **Part Naming:** Name the 'part' fields to reflect the story's progression (e.g., "The Intriguing Premise", "The First Clue", "The Plot Twist", "The Final Reveal").
 
-Structure your response as a JSON array string inside a markdown code block. Example:
+Structure your final, refined response as a JSON array string inside a markdown code block. Example:
 \`\`\`json
 [
   { "part": "The Ominous Intro", "script": "The hook in ${language} that sets up the mystery...", "memeIdea": "A 'thinking face' emoji overlay" },
